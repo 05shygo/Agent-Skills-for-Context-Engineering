@@ -66,6 +66,192 @@ These skills cover formal cognitive modeling for rational agent systems.
 |-------|-------------|
 | [bdi-mental-states](skills/bdi-mental-states/) | **NEW** Transform external RDF context into agent mental states (beliefs, desires, intentions) using formal BDI ontology patterns for deliberative reasoning and explainability |
 
+## Skill Reference Guide
+
+Detailed descriptions of every skill — what it covers, when to use it, and example trigger phrases for Copilot / Claude.
+
+### context-fundamentals
+
+**What it covers:** The anatomy of a context window (system prompts, tool definitions, retrieved documents, message history, tool outputs), how attention mechanics work, the U-shaped attention curve, "lost in the middle" recall degradation, and the four principles of context assembly: informativity, position-aware placement, progressive disclosure, and iterative curation.
+
+**When to use:**
+- Designing a new agent system from scratch
+- Onboarding a team to context engineering concepts
+- Debugging unexpected agent behavior that might relate to what's in context
+- Reviewing context-related architectural decisions
+
+**Example triggers:** "understand context windows", "explain attention budget", "design agent architecture", "why does my agent ignore instructions in the middle?"
+
+---
+
+### context-degradation
+
+**What it covers:** Five concrete degradation patterns — lost-in-middle, context poisoning, distraction, confusion, and clash — with measurable detection signals and specific mitigation strategies for each. Provides actionable thresholds (e.g., middle-context recall drops 10–40% for contexts over 4K tokens).
+
+**When to use:**
+- Agent performance degrades unexpectedly during long conversations
+- Debugging incorrect or contradictory agent outputs
+- Designing systems that must handle large contexts reliably
+- Investigating cases where provided information is ignored
+
+**Example triggers:** "diagnose context problems", "fix lost-in-middle", "why does my agent hallucinate when I give it a long document?", "context poisoning"
+
+---
+
+### context-compression
+
+**What it covers:** Three production strategies — anchored iterative summarization, opaque compression, and regenerative full summary — with trade-offs for each. Targets the correct optimization metric: *tokens per task* (not tokens per request). Covers when to trigger compression and what structure to preserve.
+
+**When to use:**
+- Agent sessions exceed context window limits
+- Code bases or documents exceed context windows
+- Designing conversation summarization strategies
+- Debugging "forgetting" of file edits or previous decisions
+
+**Example triggers:** "compress context", "summarize conversation history", "reduce token usage", "my agent keeps forgetting what files it modified"
+
+---
+
+### context-optimization
+
+**What it covers:** Four optimization techniques in priority order — KV-cache optimization, observation masking, compaction, and context partitioning. Explains that tool outputs consume 80%+ of tokens in typical agent trajectories and shows how to reclaim that space. Covers when to trigger compaction (>70% utilization) and how to partition work across sub-agents.
+
+**When to use:**
+- Reducing token costs in production
+- Hitting context limits during long agent runs
+- Optimizing latency for large conversations
+- Building production systems at scale
+
+**Example triggers:** "optimize context", "reduce token costs", "implement KV-cache", "my API costs are too high"
+
+---
+
+### multi-agent-patterns
+
+**What it covers:** Three primary architecture patterns — supervisor/orchestrator, peer-to-peer/swarm, and hierarchical — with guidance on when each is appropriate. Covers context isolation mechanics, consensus protocols that resist sycophancy, handoff design, and common failure modes (supervisor bottleneck, error propagation, agent sprawl, telephone-game degradation).
+
+**When to use:**
+- A single agent's context window can't hold all task-relevant information
+- Tasks decompose naturally into parallel or independent subtasks
+- Building systems with multiple specialized components
+- Coordinating agents across different domains or tool sets
+
+**Example triggers:** "design multi-agent system", "implement supervisor pattern", "swarm architecture", "coordinate agents", "sub-agents"
+
+---
+
+### memory-systems
+
+**What it covers:** The memory spectrum from volatile context to persistent storage. Covers production frameworks (Mem0, Zep/Graphiti, Letta, LangMem, Cognee), temporal knowledge graphs, vector stores, entity memory, and benchmark results from LoCoMo and LongMemEval. Provides a decision framework for choosing the right persistence layer.
+
+**When to use:**
+- Building agents that must retain knowledge across sessions
+- Choosing between memory frameworks
+- Implementing entity consistency across conversations
+- Designing memory architectures that scale
+
+**Example triggers:** "implement agent memory", "persist state across sessions", "build knowledge graph for agents", "track entities over time", "choose a memory framework"
+
+---
+
+### tool-design
+
+**What it covers:** The contract principle — every tool description must unambiguously answer what it does, when to use it, and what it returns. Covers the consolidation principle (eliminate tools with overlapping purpose), tool naming conventions, parameter design, error surface minimization, and the 2–3× token inflation cost of verbose tool schemas.
+
+**When to use:**
+- Creating new tools for an agent system
+- Debugging tool selection errors or misuse
+- Optimizing an existing tool set
+- Standardizing tool conventions across a codebase
+
+**Example triggers:** "design agent tools", "reduce tool complexity", "implement MCP tools", "my agent picks the wrong tool"
+
+---
+
+### filesystem-context
+
+**What it covers:** The filesystem as the primary overflow layer for agent context. Covers four context failure modes (missing, under-retrieved, over-retrieved, buried) and the filesystem remedy for each. Explains dynamic context discovery vs. static inclusion, scratch pad patterns, just-in-time loading, and sub-agent coordination through shared files.
+
+**When to use:**
+- Tool outputs bloating the context window
+- Agents needing to persist state across long trajectories
+- Sub-agents sharing information without direct message passing
+- Tasks requiring more context than fits in one window
+
+**Example triggers:** "offload context to files", "dynamic context discovery", "agent scratch pad", "file-based context", "agents sharing state"
+
+---
+
+### hosted-agents
+
+**What it covers:** Remote sandboxed execution infrastructure — image registry patterns for sub-second startup, multiplayer session design with shared state, multi-client interface patterns (Slack, web, Chrome extension), Modal sandbox integration, and self-spawning agent architectures. Covers the three-layer architecture: sandbox, API, client.
+
+**When to use:**
+- Building background coding agents that run independently of user devices
+- Designing sandboxed execution environments
+- Implementing multi-user agent sessions
+- Scaling agent infrastructure beyond a local machine
+
+**Example triggers:** "build background agent", "hosted coding agent", "sandboxed execution", "multiplayer agent", "Modal sandboxes"
+
+---
+
+### evaluation
+
+**What it covers:** How to evaluate agent systems differently from traditional software — focusing on outcomes rather than execution paths, multi-dimensional rubrics, LLM-as-judge deployment at scale, quality gates, and regression detection. Includes the "95% finding" on performance drivers and guidance for production continuous evaluation.
+
+**When to use:**
+- Testing agent performance systematically
+- Validating that context engineering choices achieve intended effects
+- Building quality gates for agent pipelines
+- Comparing different agent configurations
+
+**Example triggers:** "evaluate agent performance", "build test framework", "measure agent quality", "LLM-as-judge", "catch regressions"
+
+---
+
+### advanced-evaluation
+
+**What it covers:** Production-grade LLM-as-judge techniques — direct scoring, pairwise comparison, rubric generation, and bias mitigation (position bias, length bias, verbosity bias). Covers evaluation taxonomy selection, correlation with human judgments, position-swap protocols, and the EvaluatorAgent pattern for combining all techniques.
+
+**When to use:**
+- Building automated evaluation pipelines
+- Comparing multiple model responses to select the best
+- Establishing consistent quality standards
+- Debugging inconsistent evaluation results
+
+**Example triggers:** "implement LLM-as-judge", "compare model outputs", "evaluation rubrics", "pairwise comparison", "mitigate position bias"
+
+---
+
+### project-development
+
+**What it covers:** Task-model fit analysis (proceed/stop decision tables), pipeline architecture design, batch processing patterns, cost estimation, structured output design, and agent-assisted development methodology. Covers how to evaluate whether a task is suited for LLMs vs. traditional code before writing anything.
+
+**When to use:**
+- Starting a new project that might benefit from LLM processing
+- Evaluating task-model fit before committing to implementation
+- Designing a batch processing pipeline with structured outputs
+- Choosing between single-agent and multi-agent approaches
+
+**Example triggers:** "start LLM project", "design batch pipeline", "task-model fit", "should I use an LLM for this?", "pipeline architecture"
+
+---
+
+### bdi-mental-states
+
+**What it covers:** Formal BDI (Belief-Desire-Intention) cognitive architecture for agents — transforming RDF/external context into structured mental states, the endurant/perdurant ontological separation, bidirectional motivational chains, and integration with BDI frameworks (SEMAS, JADE, JADEX). Enables traceable, explainable agent reasoning.
+
+**When to use:**
+- Modeling rational agent behavior with explainable reasoning chains
+- Processing external RDF context into structured beliefs
+- Implementing neuro-symbolic AI or Logic Augmented Generation
+- Coordinating mental states across multi-agent platforms
+
+**Example triggers:** "model agent mental states", "BDI architecture", "transform RDF to beliefs", "build cognitive agent", "explainable agent reasoning"
+
+---
+
 ## Design Philosophy
 
 ### Progressive Disclosure
@@ -136,11 +322,34 @@ This installs all 13 skills in a single plugin. Skills are activated automatical
 
 This repository ships a `.github/copilot-instructions.md` file that GitHub Copilot reads automatically in any repository that references or includes it. The file maps every skill to its trigger keywords and applies the four core context engineering principles in every Copilot response.
 
-**Option A — Use the skills in this repository directly**
+**Option A — Use the skills in this repository directly (VS Code)**
 
-Clone or fork this repository and open it in VS Code with GitHub Copilot enabled. Copilot reads `.github/copilot-instructions.md` and will automatically apply the relevant skill (`skills/<skill-name>/SKILL.md`) when you ask context engineering questions.
+1. Clone this repository to **any directory** you prefer, for example:
+   ```bash
+   # macOS / Linux  (substitute your fork URL if you've forked the repo)
+   git clone https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering.git ~/agent-skills
 
-**Option B — Copy the instructions into your own project**
+   # Windows (PowerShell)
+   git clone https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering.git $HOME\agent-skills
+   ```
+2. Open that cloned folder **as your VS Code workspace root** (`File → Open Folder…` and select the cloned directory).
+3. GitHub Copilot automatically reads `.github/copilot-instructions.md` from the workspace root and will apply the relevant skill (`skills/<skill-name>/SKILL.md`) whenever you ask context engineering questions in Copilot Chat.
+
+> **Key point:** The directory you choose doesn't matter — what matters is that the repository root (the folder that contains `.github/copilot-instructions.md`) is opened as your VS Code workspace. Do **not** open a subdirectory inside the clone, or Copilot won't find the instructions file.
+
+**Using GitHub Copilot in the VS Code integrated terminal**
+
+Once you have opened the repository folder in VS Code as described above, any Copilot interaction in the integrated terminal (e.g., `@terminal` or inline suggestions) also benefits from the loaded instructions, because VS Code shares the workspace context with the terminal session.
+
+**Option B — GitHub Copilot CLI (`gh copilot`)**
+
+The standalone `gh copilot` CLI tool (`gh copilot suggest` / `gh copilot explain`) does **not** automatically read `copilot-instructions.md`. To get skill-guided responses in `gh copilot`:
+
+1. Run `gh copilot suggest` or `gh copilot explain` as normal.
+2. Prefix your prompt with the relevant skill keyword from the [Skill Triggers](#skill-triggers) table (e.g., *"design multi-agent system: ..."*) — Copilot will incorporate the concept even without the file.
+3. For richer guidance, paste the contents of the relevant `skills/<skill-name>/SKILL.md` file directly into your prompt.
+
+**Option C — Copy the instructions into your own project**
 
 ```bash
 mkdir -p .github
