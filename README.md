@@ -132,6 +132,32 @@ This installs all 13 skills in a single plugin. Skills are activated automatical
 
 <img width="1014" height="894" alt="Screenshot 2025-12-26 at 12 34 47 PM" src="https://github.com/user-attachments/assets/f79aaf03-fd2d-4c71-a630-7027adeb9bfe" />
 
+### For GitHub Copilot
+
+This repository ships a `.github/copilot-instructions.md` file that GitHub Copilot reads automatically in any repository that references or includes it. The file maps every skill to its trigger keywords and applies the four core context engineering principles in every Copilot response.
+
+**Option A — Use the skills in this repository directly**
+
+Clone or fork this repository and open it in VS Code with GitHub Copilot enabled. Copilot reads `.github/copilot-instructions.md` and will automatically apply the relevant skill (`skills/<skill-name>/SKILL.md`) when you ask context engineering questions.
+
+**Option B — Copy the instructions into your own project**
+
+```bash
+mkdir -p .github
+curl -o .github/copilot-instructions.md \
+  https://raw.githubusercontent.com/muratcankoylan/Agent-Skills-for-Context-Engineering/main/.github/copilot-instructions.md
+```
+
+Then copy the skills you need:
+
+```bash
+mkdir -p skills/multi-agent-patterns
+curl -o skills/multi-agent-patterns/SKILL.md \
+  https://raw.githubusercontent.com/muratcankoylan/Agent-Skills-for-Context-Engineering/main/skills/multi-agent-patterns/SKILL.md
+```
+
+Copilot will read both files and apply multi-agent pattern guidance when you ask about agent coordination, supervisor architectures, or swarm patterns.
+
 ### For Cursor (Open Plugins)
 
 This repository is listed on the [Cursor Plugin Directory](https://cursor.directory/plugins/context-engineering).
